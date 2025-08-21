@@ -14,7 +14,6 @@ import Aura from '@primeuix/themes/aura';
 import { providePrimeNG } from 'primeng/config';
 import { FirebaseAuthenticationService } from '../authentication/infrastructure/domain/services/authentication/firebase-authentication.service';
 import { AUTHENTICATION_SERVICE } from '../authentication/infrastructure/framework/auth.token';
-import { SignInUseCase } from '../authentication/usecases/sign-in.use-case';
 import { costCenterProviders } from '../cost-center/cost-center.config';
 import { environment } from '../environments/environment.development';
 import { routes } from './app.routes';
@@ -38,7 +37,6 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideFunctions(() => getFunctions()),
     provideStorage(() => getStorage()),
-    SignInUseCase,
     costCenterProviders,
     {
       provide: AUTHENTICATION_SERVICE,

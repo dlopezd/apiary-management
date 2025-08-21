@@ -1,7 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SignInUseCase } from '../../usecases/sign-in.use-case';
 import { AUTHENTICATION_SERVICE } from '../../infrastructure/framework/auth.token';
 import { Router } from '@angular/router';
 
@@ -14,7 +13,6 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
-  private signInUseCase = inject(SignInUseCase);
   private authService = inject(AUTHENTICATION_SERVICE);
   private router = inject(Router);
 
@@ -41,7 +39,7 @@ export class LoginComponent {
 
       try {
         const { email, password } = this.loginForm.getRawValue();
-        await this.signInUseCase.execute(email, password);
+        await this.authService.signIn(email, password);
       } catch (error) {
         this.error = error instanceof Error ? error.message : 'Ha ocurrido un error';
       } finally {
