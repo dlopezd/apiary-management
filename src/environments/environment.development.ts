@@ -8,5 +8,5 @@ export const environment = {
     authDomain: 'apiary-management-fceb4.firebaseapp.com',
     messagingSenderId: '1091981223966',
     measurementId: 'G-0KSD5HL17N',
-  }
+  },
 };

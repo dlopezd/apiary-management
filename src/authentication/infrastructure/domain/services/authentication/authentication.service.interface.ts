@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { User } from "./models/user.model";
+import { Injectable } from '@angular/core';
+import { User } from './models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export abstract class AuthenticationService {
   public abstract signIn(email: string, password: string): Promise<User>;

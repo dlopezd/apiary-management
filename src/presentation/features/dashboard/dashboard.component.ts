@@ -10,7 +10,7 @@ import { FirebaseAuthenticationService } from '../../../authentication/infrastru
   standalone: true,
   imports: [CommonModule, MenubarModule, ButtonModule],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
   private authService = inject(FirebaseAuthenticationService);
@@ -18,7 +18,7 @@ export class DashboardComponent {
   menuItems: MenuItem[] = [
     {
       label: 'Inicio',
-      icon: 'pi pi-home'
+      icon: 'pi pi-home',
     },
     {
       label: 'Colmenas',
@@ -26,13 +26,13 @@ export class DashboardComponent {
       items: [
         {
           label: 'Ver Colmenas',
-          icon: 'pi pi-list'
+          icon: 'pi pi-list',
         },
         {
           label: 'Agregar Colmena',
-          icon: 'pi pi-plus'
-        }
-      ]
+          icon: 'pi pi-plus',
+        },
+      ],
     },
     {
       label: 'Producción',
@@ -40,18 +40,18 @@ export class DashboardComponent {
       items: [
         {
           label: 'Registros',
-          icon: 'pi pi-database'
+          icon: 'pi pi-database',
         },
         {
           label: 'Estadísticas',
-          icon: 'pi pi-chart-line'
-        }
-      ]
+          icon: 'pi pi-chart-line',
+        },
+      ],
     },
     {
       label: 'Configuración',
-      icon: 'pi pi-cog'
-    }
+      icon: 'pi pi-cog',
+    },
   ];
 
   async onLogout(): Promise<void> {
