@@ -4,11 +4,7 @@ import { User } from './models/user.model';
 @Injectable({
   providedIn: 'root',
 })
-export abstract class AuthenticationService {
-  public abstract signIn(email: string, password: string): Promise<User>;
-  public abstract signOut(): Promise<void>;
-  public abstract getCurrentUser(): User | null;
-
+export abstract class AuthenticationServiceBase {
   public readonly user = signal<User | null>(null);
   public readonly isAuthenticated = signal(false);
 }

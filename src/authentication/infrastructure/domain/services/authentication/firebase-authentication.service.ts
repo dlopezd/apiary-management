@@ -1,20 +1,22 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Auth, authState, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { User } from './models/user.model';
+import { AuthenticationServiceBase } from './authentication.service.base';
 import { AuthenticationService } from './authentication.service.interface';
+import { User } from './models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FirebaseAuthenticationService implements AuthenticationService {
+export class FirebaseAuthenticationService
+  extends AuthenticationServiceBase
+  implements AuthenticationService
+{
   private auth = inject(Auth);
   private router = inject(Router);
 
-  readonly user = signal<User | null>(null);
-  readonly isAuthenticated = signal(false);
-
   constructor() {
+    super();
     // Subscribe to auth state changes
     authState(this.auth).subscribe((firebaseUser) => {
       if (firebaseUser) {
