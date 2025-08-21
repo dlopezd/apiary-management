@@ -5,7 +5,6 @@ import { AUTHENTICATION_SERVICE } from './auth.token';
 export const authGuard: CanActivateFn = async () => {
   const authService = inject(AUTHENTICATION_SERVICE);
   const router = inject(Router);
-
   const currentUser = authService.getCurrentUser();
 
   if (!currentUser) {
