@@ -1,0 +1,22 @@
+<div class="dashboard">
+  <p-menubar [model]="menuItems">
+    <ng-template pTemplate="end">
+      <p-button 
+        icon="pi pi-sign-out" 
+        label="Cerrar Sesión"
+        severity="danger"
+        (onClick)="onLogout()"
+      ></p-button>
+    </ng-template>
+  </p-menubar>
+
+  <div class="content">
+    <div class="header">
+      <h1>Dashboard</h1>
+    </div>
+
+    <div class="grid">
+      <!-- Aquí irán los componentes del dashboard -->
+    </div>
+  </div>
+</div>
