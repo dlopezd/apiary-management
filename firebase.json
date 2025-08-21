@@ -1,0 +1,19 @@
+{
+  "hosting": {
+    "public": "dist/apiary-management/browser",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "database": {
+    "rules": "database.rules.json"
+  }
+}

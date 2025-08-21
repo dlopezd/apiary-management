@@ -1,0 +1,9 @@
+#!/bin/sh
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Use Node.js v20
+nvm use 20
+
+# Run lint-staged
+npm run lint-staged
