@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { collection } from '@angular/fire/firestore';
+import { collection, Firestore } from '@angular/fire/firestore';
 import {
   doc,
   DocumentReference,
-  Firestore,
   getAggregateFromServer,
   query,
   sum,
@@ -22,9 +21,9 @@ import { ReportService } from './report.service.interface';
   providedIn: 'root',
 })
 export class FirestoreReportService implements ReportService {
+  private firestore = inject(Firestore);
   private expensesService = inject(EXPENSE_SERVICE);
   private costCenterService = inject(COST_CENTER_SERVICE);
-  private readonly firestore = inject(Firestore);
 
   getTotalByCostCenter(startDate: Date, endDate: Date): Observable<CostCentersTotalized> {
     return this.expensesService.listByDateRange(startDate, endDate).pipe(
