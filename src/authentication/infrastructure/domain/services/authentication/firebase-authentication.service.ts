@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Auth, authState, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { catchError, from, map, Observable, tap, throwError } from 'rxjs';
 import { AuthenticationServiceBase } from './authentication.service.base';
 import { AuthenticationService } from './authentication.service.interface';
 import { User } from './models/user.model';
@@ -35,29 +36,24 @@ export class FirebaseAuthenticationService
     });
   }
 
-  async signIn(email: string, password: string): Promise<User> {
-    try {
-      const result = await signInWithEmailAndPassword(this.auth, email, password);
-      const user: User = {
+  signIn(email: string, password: string): Observable<User> {
+    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
+      map((result) => ({
         uid: result.user.uid,
         email: result.user.email,
         displayName: result.user.displayName,
         emailVerified: result.user.emailVerified,
-      };
-      await this.router.navigate(['/dashboard']);
-      return user;
-    } catch (error) {
-      throw this.handleError(error);
-    }
+      })),
+      tap(() => this.router.navigate(['/dashboard'])),
+      catchError((error) => throwError(() => this.handleError(error))),
+    );
   }
 
-  async signOut(): Promise<void> {
-    try {
-      await signOut(this.auth);
-      await this.router.navigate(['/auth/login']);
-    } catch (error) {
-      throw this.handleError(error);
-    }
+  signOut(): Observable<void> {
+    return from(signOut(this.auth)).pipe(
+      tap(() => this.router.navigate(['/auth/login'])),
+      catchError((error) => throwError(() => this.handleError(error))),
+    );
   }
 
   getCurrentUser(): User | null {

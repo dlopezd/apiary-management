@@ -17,6 +17,8 @@ import { AUTHENTICATION_SERVICE } from '../authentication/infrastructure/framewo
 import { costCenterProviders } from '../cost-center/cost-center.config';
 import { environment } from '../environments/environment.development';
 import { routes } from './app.routes';
+import { reportsProviders } from '../reports/reports.config';
+import { expenseProviders } from '../expenses/expenses.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -37,7 +39,9 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideFunctions(() => getFunctions()),
     provideStorage(() => getStorage()),
-    costCenterProviders,
+    ...expenseProviders,
+    ...costCenterProviders,
+    ...reportsProviders,
     {
       provide: AUTHENTICATION_SERVICE,
       useClass: FirebaseAuthenticationService,

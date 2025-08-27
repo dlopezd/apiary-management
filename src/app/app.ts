@@ -33,6 +33,17 @@ export class App implements OnInit {
       icon: PrimeIcons.HOME,
     },
     {
+      label: 'Reportes',
+      icon: PrimeIcons.CALCULATOR,
+      items: [
+        {
+          label: 'Totalizados por Centro de Costo',
+          icon: PrimeIcons.FILE_PLUS,
+          routerLink: '/reports/totalized-cost-center',
+        },
+      ],
+    },
+    {
       label: 'Gestión',
       icon: PrimeIcons.FOLDER,
       items: [
@@ -41,11 +52,16 @@ export class App implements OnInit {
           icon: PrimeIcons.CALCULATOR,
           routerLink: '/cost-centers',
         },
+        {
+          label: 'Gastos',
+          icon: PrimeIcons.MONEY_BILL,
+          routerLink: '/expenses',
+        },
       ],
     },
   ];
 
-  async onLogout(): Promise<void> {
-    await this.authService.signOut();
+  onLogout(): void {
+    this.authService.signOut().subscribe();
   }
 }

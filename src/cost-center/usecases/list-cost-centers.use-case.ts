@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CostCenter } from '../infrastructure/domain/services/cost-center';
 import { COST_CENTER_SERVICE } from '../infrastructure/framework/cost-center.token';
 
@@ -8,7 +9,7 @@ import { COST_CENTER_SERVICE } from '../infrastructure/framework/cost-center.tok
 export class ListCostCentersUseCase {
   private costCenterService = inject(COST_CENTER_SERVICE);
 
-  execute(): Promise<CostCenter[]> {
+  execute(): Observable<CostCenter[]> {
     return this.costCenterService.list();
   }
 }

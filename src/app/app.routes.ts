@@ -13,6 +13,18 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'expenses',
+    loadChildren: () =>
+      import('../expenses/presentation/expense.routes').then((m) => m.EXPENSE_ROUTES),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'reports',
+    loadChildren: () =>
+      import('../reports/presentation/reports.routes').then((m) => m.REPORTS_ROUTES),
+    canActivate: [authGuard],
+  },
+  {
     path: '',
     redirectTo: 'cost-centers',
     pathMatch: 'full',

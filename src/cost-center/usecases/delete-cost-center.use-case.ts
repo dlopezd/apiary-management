@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { COST_CENTER_SERVICE } from '../infrastructure/framework/cost-center.token';
 
 @Injectable({
@@ -7,7 +8,7 @@ import { COST_CENTER_SERVICE } from '../infrastructure/framework/cost-center.tok
 export class DeleteCostCenterUseCase {
   private costCenterService = inject(COST_CENTER_SERVICE);
 
-  execute(id: string): Promise<void> {
+  execute(id: string): Observable<void> {
     return this.costCenterService.delete(id);
   }
 }
