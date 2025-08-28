@@ -6,9 +6,9 @@
     <ng-template pTemplate="header">
       <tr>
         <th>Centro de Costos</th>
-        <!-- @for(let season of seasons){
+        @for (season of seasons; track season) {
           <th>{{ season }}</th>
-        } -->
+        }
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-totalItem>

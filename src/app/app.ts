@@ -41,6 +41,11 @@ export class App implements OnInit {
           icon: PrimeIcons.FILE_PLUS,
           routerLink: '/reports/totalized-cost-center',
         },
+        {
+          label: 'Totalizados por Centro de Costo y Temporada',
+          icon: PrimeIcons.FILE_PLUS,
+          routerLink: '/reports/totalized-cost-center-and-season',
+        },
       ],
     },
     {
