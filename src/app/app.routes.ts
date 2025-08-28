@@ -7,14 +7,26 @@ export const routes: Routes = [
     loadChildren: () => import('../authentication/auth.routes').then((m) => m.AUTH_ROUTES),
   },
   {
-    path: 'dashboard',
+    path: 'cost-centers',
     loadChildren: () =>
-      import('../presentation/features/dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTES),
+      import('../cost-center/presentation/cost-center.routes').then((m) => m.COST_CENTER_ROUTES),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'expenses',
+    loadChildren: () =>
+      import('../expenses/presentation/expense.routes').then((m) => m.EXPENSE_ROUTES),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'reports',
+    loadChildren: () =>
+      import('../reports/presentation/reports.routes').then((m) => m.REPORTS_ROUTES),
     canActivate: [authGuard],
   },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'cost-centers',
     pathMatch: 'full',
   },
 ];

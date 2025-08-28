@@ -1,0 +1,50 @@
+<div class="card">
+  <div class="flex justify-content-between mb-5">
+    <h2>Resumen de Gastos por Centro de Costos</h2>
+  </div>
+  <div class="mb-5">
+    <div class="flex flex-wrap gap-6 items-center">
+      <label class="font-bold" for="dateRange">Rango de Fechas</label>
+      <div class="p-field">
+        <p-datepicker
+          [(ngModel)]="dateRange"
+          selectionMode="range"
+          [readonlyInput]="true"
+          inputId="dateRange"
+          dateFormat="dd/mm/yy"
+          (onSelect)="searchExpenses()"
+        ></p-datepicker>
+      </div>
+
+      <p-button
+        label="Buscar"
+        icon="pi pi-search"
+        (onClick)="searchExpenses()"
+        [loading]="loading"
+        [disabled]="loading || !dateRange[0] || !dateRange[1]"
+      ></p-button>
+    </div>
+  </div>
+
+  <p-table [value]="costCenterTotals" [loading]="loading">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Centro de Costos</th>
+        <th>Total Gastado</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-totalItem>
+      <tr>
+        <td>{{ totalItem.costCenter.name }}</td>
+        <td>{{ totalItem.total | currency: 'CLP' : '$' }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="2" class="p-text-center">No hay gastos en el período seleccionado.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-toast></p-toast>
