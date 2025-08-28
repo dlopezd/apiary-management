@@ -6,13 +6,12 @@ import {
   getAggregateFromServer,
   query,
   sum,
+  Timestamp,
   where,
 } from 'firebase/firestore';
-import { forkJoin, from, map, Observable, switchMap } from 'rxjs';
+import { forkJoin, from, map, Observable, of, switchMap } from 'rxjs';
 import { CostCenter } from '../../../../../cost-center/infrastructure/domain/services/cost-center';
 import { COST_CENTER_SERVICE } from '../../../../../cost-center/infrastructure/framework/cost-center.token';
-import { Expense } from '../../../../../expenses/infrastructure/domain/services/expenses';
-import { EXPENSE_SERVICE } from '../../../../../expenses/infrastructure/framework/expense.token';
 import { SEASONS } from '../../../../../shared';
 import { CostCentersTotalized } from './models/cost-center-totalized.model';
 import { ReportService } from './report.service.interface';
@@ -22,22 +21,49 @@ import { ReportService } from './report.service.interface';
 })
 export class FirestoreReportService implements ReportService {
   private firestore = inject(Firestore);
-  private expensesService = inject(EXPENSE_SERVICE);
   private costCenterService = inject(COST_CENTER_SERVICE);
 
   getTotalByCostCenter(startDate: Date, endDate: Date): Observable<CostCentersTotalized> {
-    return this.expensesService.listByDateRange(startDate, endDate).pipe(
-      map((expenses: Expense[]) => {
-        const totals: { [key: string]: number } = {};
-        for (const expense of expenses) {
-          console.log(expense);
-          const costCenterId = expense.costCenter.id;
-          if (!totals[costCenterId]) {
-            totals[costCenterId] = 0;
-          }
-          totals[costCenterId] += expense.amount;
+    // 1. Obtener todos los centros de costo
+    return this.costCenterService.list().pipe(
+      switchMap((costCenters: CostCenter[]) => {
+        if (costCenters.length === 0) {
+          return of({}); // No hay centros de costo, no hay totales.
         }
-        return totals;
+
+        // 2. Para cada centro de costo, crear un observable de consulta de agregación
+        const totalObservables$ = costCenters.map((costCenter) => {
+          const costCenterRef = doc(this.firestore, `cost-centers/${costCenter.id}`);
+          const expensesCollection = collection(this.firestore, 'expenses');
+
+          const q = query(
+            expensesCollection,
+            where('costCenter', '==', costCenterRef),
+            where('date', '>=', Timestamp.fromDate(startDate)),
+            where('date', '<=', Timestamp.fromDate(endDate)),
+          );
+
+          return from(getAggregateFromServer(q, { totalAmount: sum('amount') })).pipe(
+            map((snapshot) => ({
+              costCenterId: costCenter.id,
+              total: snapshot.data().totalAmount || 0,
+            })),
+          );
+        });
+
+        // 3. Ejecutar todas las agregaciones en paralelo
+        return forkJoin(totalObservables$).pipe(
+          map((results) => {
+            // 4. Transformar el array de resultados en el objeto CostCentersTotalized
+            const totals: CostCentersTotalized = {};
+            for (const result of results) {
+              if (result.total > 0) {
+                totals[result.costCenterId] = result.total;
+              }
+            }
+            return totals;
+          }),
+        );
       }),
     );
   }
