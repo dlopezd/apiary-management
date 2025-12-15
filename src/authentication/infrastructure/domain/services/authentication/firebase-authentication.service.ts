@@ -1,5 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, authState, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import {
+  Auth,
+  authState,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  UserCredential,
+} from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { catchError, from, map, Observable, tap, throwError } from 'rxjs';
 import { AuthenticationServiceBase } from './authentication.service.base';
@@ -47,6 +55,10 @@ export class FirebaseAuthenticationService
       tap(() => this.router.navigate(['/dashboard'])),
       catchError((error) => throwError(() => this.handleError(error))),
     );
+  }
+
+  loginWithGoogle(): Observable<UserCredential> {
+    return from(signInWithPopup(this.auth, new GoogleAuthProvider()));
   }
 
   signOut(): Observable<void> {

@@ -47,4 +47,20 @@ export class LoginComponent {
       }
     }
   }
+
+  onGoogleLogin(): void {
+    this.isLoading = true;
+    this.authService.loginWithGoogle().subscribe({
+      next: () => {
+        this.isLoading = false;
+        // Redirige al usuario a la página principal tras un login exitoso
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.error = 'Error al iniciar sesión con Google. Inténtalo de nuevo.';
+        console.error('Google login error:', err);
+      },
+    });
+  }
 }
