@@ -1,6 +1,4 @@
 <div class="auth-container">
-  <h2>Iniciar Sesión</h2>
-
   @if (error) {
     <div class="error-message">{{ error }}</div>
   }
@@ -29,4 +27,10 @@
       {{ isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
     </button>
   </form>
+
+  <div class="separator">o</div>
+
+  <button type="button" class="google-login-btn" (click)="onGoogleLogin()" [disabled]="isLoading">
+    Iniciar Sesión con Google
+  </button>
 </div>

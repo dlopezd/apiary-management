@@ -1,0 +1,45 @@
+@if (expenses(); as expenses) {
+  <div class="card">
+    <div class="flex justify-content-between mb-3">
+      <h2>Gastos</h2>
+      <p-button label="Nuevo Gasto" (onClick)="loadExpenses()"></p-button>
+    </div>
+
+    <div class="overflow-x-auto">
+      <p-table [value]="expenses">
+        <ng-template #header>
+          <tr class="bg-gray-200 text-gray-700">
+            <th class="text-left">Fecha</th>
+            <th class="text-left">Descripción</th>
+            <th class="text-left">Centro de Costo</th>
+            <th class="text-right">Monto</th>
+            <th class="text-left">Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-expense>
+          <tr class="border-b hover:bg-gray-100">
+            <td class="">{{ expense.date | date: 'dd MMM yy' }}</td>
+            <td class="">{{ expense.description }}</td>
+            <td class="">{{ expense.costCenter.name }}</td>
+            <td class="text-right">{{ expense.amount | currency: 'CLP' : '$' }}</td>
+            <td class="">
+              <p-button icon="pi pi-pencil" size="small" [rounded]="true" variant="text">
+              </p-button>
+              <p-button
+                icon="pi pi-trash"
+                severity="danger"
+                [rounded]="true"
+                variant="text"
+                size="small"
+              ></p-button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+} @else {
+  <div class="flex justify-center items-center h-64">
+    <p class="text-gray-500">Loading expenses...</p>
+  </div>
+}
